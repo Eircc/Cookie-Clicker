@@ -23,6 +23,10 @@ def displayStats(data):
     return data
 
 
+def save(data):
+    with open("data.json", "w") as write_file:
+            json.dump(data, write_file)
+
 data = {}
 
 with open("data.json", "r") as read_file:
@@ -31,24 +35,26 @@ with open("data.json", "r") as read_file:
 while True:
     s = input()
     if s == 'exit':
-        with open("data.json", "w") as write_file:
-            json.dump(data, write_file)
-            break
+        save(data)
+        break
     if s == 'display':
         data = displayStats(data)
     if "+" in s:
-        a, building = s.split()
-        data[building]["n"] += 1
-        data[building]["cost"] = int(data[building]["cost"] * 1.15)
+        a, n, building = s.split()
+        data[building]["n"] += int(n)
+        data[building]["cost"] = int(data[building]["cost"] * 1.15 ** int(n))
 
+        save(data)
         data = displayStats(data)
     if "cps" in s:
         a, building, cps = s.split()
         data[building]["cps"] = float(cps)
 
+        save(data)
         data = displayStats(data)
     if "cost" in s:
         a, building, cost = s.split()
         data[building]["cost"] = int(cost)
 
+        save(data)
         data = displayStats(data)
