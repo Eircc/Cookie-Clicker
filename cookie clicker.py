@@ -26,7 +26,6 @@ screen = pygame.display.set_mode(SIZE)
 # LOADING SAVE FILE
 langauge = driver.find_element(By.ID, "langSelect-EN")
 langauge.click()
-print("English language chosen.")
 
 time.sleep(5)
 
@@ -40,7 +39,6 @@ load_file = driver.find_element(By.ID, "FileLoadInput")
 load_file_actions.move_to_element(load_file)
 load_file_actions.click()
 load_file_actions.perform()
-print("Loading previous save file.")
 
 time.sleep(5)
 
@@ -204,8 +202,6 @@ buyer = False
 scanning = False
 
 balance = driver.find_element(By.ID, "cookies")
-print(balance.text.split()[0])
-print(balance.text.split()[1])
 cookie = driver.find_element(By.ID, "bigCookie")
 while True:
     for event in pygame.event.get():
