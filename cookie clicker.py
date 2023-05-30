@@ -181,7 +181,7 @@ def display(clicker, buyer, scanning, value, temp):
 
     buildings = ['cursor', 'grandma', 'farm', 'mine', 'factory', 'bank', 'temple', 'wizard tower', 'shipment', 'alchemy lab', 'portal', 'time machine', 'antimatter condenser', 'prism', 'chancemaker', 'fractal engine', 'javascript console', 'idleverse', 'cortex baker', 'you']
     font = pygame.font.SysFont('comicsansms', 15)
-    for i in range(5):
+    for i in range(min(5, len(value))):
         index = value.index(temp[i])
         name = font.render(buildings[index], True, ORANGE)
         name_rect = name.get_rect(center=(350, 130 + 51 * i))
@@ -200,6 +200,9 @@ def dist(x1, y1, x2, y2):
 clicker = False
 buyer = False
 scanning = False
+
+default_cps = [0.1, 1, 8, 47, 260, 1400, 7800, 44000, 260000, 1600000, 10*10**6, 65*10**6, 430*10**6, 2.9*10**9, 21*10**9, 150*10**9, 1.1*10**12, 8.3*10**12, 64*10**12, 510*10**12]
+
 
 balance = driver.find_element(By.ID, "cookies")
 cookie = driver.find_element(By.ID, "bigCookie")
@@ -261,35 +264,38 @@ while True:
                     value, temp = find_value(item_costs, item_cps)
                     display(clicker, buyer, scanning, value, temp)
                 elif y >= 222 and y <= 268:
-                    index = value.index(temp[2])
-                    element = driver.find_element(By.ID, "productPrice" + str(index))
-                    buy_actions = ActionChains(driver)
-                    buy_actions.move_to_element(element)
-                    buy_actions.click()
-                    buy_actions.perform()
-                    item_costs = find_costs()
-                    value, temp = find_value(item_costs, item_cps)
-                    display(clicker, buyer, scanning, value, temp)
+                    if len(value) >= 3:
+                        index = value.index(temp[2])
+                        element = driver.find_element(By.ID, "productPrice" + str(index))
+                        buy_actions = ActionChains(driver)
+                        buy_actions.move_to_element(element)
+                        buy_actions.click()
+                        buy_actions.perform()
+                        item_costs = find_costs()
+                        value, temp = find_value(item_costs, item_cps)
+                        display(clicker, buyer, scanning, value, temp)
                 elif y >= 273 and y <= 319:
-                    index = value.index(temp[3])
-                    element = driver.find_element(By.ID, "productPrice" + str(index))
-                    buy_actions = ActionChains(driver)
-                    buy_actions.move_to_element(element)
-                    buy_actions.click()
-                    buy_actions.perform()
-                    item_costs = find_costs()
-                    value, temp = find_value(item_costs, item_cps)
-                    display(clicker, buyer, scanning, value, temp)
+                    if len(value) >= 4:
+                        index = value.index(temp[3])
+                        element = driver.find_element(By.ID, "productPrice" + str(index))
+                        buy_actions = ActionChains(driver)
+                        buy_actions.move_to_element(element)
+                        buy_actions.click()
+                        buy_actions.perform()
+                        item_costs = find_costs()
+                        value, temp = find_value(item_costs, item_cps)
+                        display(clicker, buyer, scanning, value, temp)
                 elif y >= 324 and y <= 370:
-                    index = value.index(temp[4])
-                    element = driver.find_element(By.ID, "productPrice" + str(index))
-                    buy_actions = ActionChains(driver)
-                    buy_actions.move_to_element(element)
-                    buy_actions.click()
-                    buy_actions.perform()
-                    item_costs = find_costs()
-                    value, temp = find_value(item_costs, item_cps)
-                    display(clicker, buyer, scanning, value, temp)
+                    if len(value) >= 5:
+                        index = value.index(temp[4])
+                        element = driver.find_element(By.ID, "productPrice" + str(index))
+                        buy_actions = ActionChains(driver)
+                        buy_actions.move_to_element(element)
+                        buy_actions.click()
+                        buy_actions.perform()
+                        item_costs = find_costs()
+                        value, temp = find_value(item_costs, item_cps)
+                        display(clicker, buyer, scanning, value, temp)
 
     if clicker:
         cookie.click()
@@ -313,6 +319,9 @@ while True:
             buy_actions.move_to_element(element)
             buy_actions.click()
             buy_actions.perform()
+            x = len(item_costs)
             item_costs = find_costs()
+            if len(item_costs) > x:
+                item_cps.append(default_cps[len(item_costs) - 1])
             value, temp = find_value(item_costs, item_cps)
     display(clicker, buyer, scanning, value, temp)
