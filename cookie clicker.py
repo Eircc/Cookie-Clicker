@@ -321,7 +321,11 @@ while True:
             buy_actions.perform()
             x = len(item_costs)
             item_costs = find_costs()
+            print(x)
+            print(len(item_costs))
             if len(item_costs) > x:
-                item_cps.append(default_cps[len(item_costs) - 1])
+                y = len(item_costs) - x
+                for i in range(y):
+                    item_cps.append(default_cps[len(item_costs) - y + i])
             value, temp = find_value(item_costs, item_cps)
     display(clicker, buyer, scanning, value, temp)
